@@ -65,7 +65,7 @@ edo_entry = create_label_entry(20, 20, 85, 70, 'EDO:', 'EDO')
 chord_size_entry = create_label_entry(20, 50, 85, 70, 'chord size:', 'CHORD_SIZE')
 dimensions_entry = create_label_entry(220, 20, 85, 70, 'dimensions:', 'DIMENSIONS')
 iterations_entry = create_label_entry(220, 50, 85, 70, 'iterations:', 'ITERATIONS')
-intervals_entry = create_label_entry(20, 80, 85, 270, 'Intervals:', 'INTERVALS')
+intervals_entry = create_label_entry(20, 80, 85, 270, 'intervals:', 'INTERVALS')
 inclusions_entry = create_label_entry(20, 110, 85, 195, 'include:', 'INCLUSIONS')
 exclusions_entry = create_label_entry(20, 140, 85, 195, 'exclude:', 'EXCLUSIONS')
 

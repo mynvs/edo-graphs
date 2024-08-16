@@ -1,0 +1,79 @@
+{
+    "defaults": {
+        "colours": {
+            "normal_bg": "#45494e",
+            "hovered_bg": "#35393e",
+            "disabled_bg": "#25292e",
+            "selected_bg": "#193754",
+            "dark_bg": "#15191e",
+            "normal_text": "#c5cbd8",
+            "hovered_text": "#FFFFFF",
+            "selected_text": "#FFFFFF",
+            "disabled_text": "#6d736f",
+            "link_text": "#0000EE",
+            "link_hover": "#2020FF",
+            "link_selected": "#551A8B",
+            "text_shadow": "#777777",
+            "normal_border": "#2c2c2c",
+            "hovered_border": "#B0B0B0",
+            "disabled_border": "#808080",
+            "selected_border": "#8080B0",
+            "active_border": "#8080B0"
+        },
+        "font": {
+            "name": "JetBrainsMono-Regular",
+            "size": "12",
+            "regular_path": "assets/JetBrainsMono-Regular.otf"
+        }
+    },
+    "button": {
+        "colours": {
+            "normal_bg": "#45494e",
+            "hovered_bg": "#35393e",
+            "disabled_bg": "#25292e",
+            "selected_bg": "#193754",
+            "active_bg": "#193754",
+            "normal_text": "#c5cbd8",
+            "hovered_text": "#FFFFFF",
+            "selected_text": "#FFFFFF",
+            "disabled_text": "#6d736f",
+            "active_text": "#FFFFFF",
+            "normal_border": "#2c2c2c",
+            "hovered_border": "#B0B0B0",
+            "disabled_border": "#808080",
+            "selected_border": "#8080B0",
+            "active_border": "#8080B0"
+        },
+        "misc": {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "3",
+            "border_width": "1",
+            "shadow_width": "2"
+        }
+    },
+    "text_entry_line": {
+        "colours": {
+            "dark_bg": "#000000",
+            "normal_text": "#FFFFFF",
+            "normal_border": "#2c2c2c"
+        },
+        "misc": {
+            "border_width": "1",
+            "shadow_width": "1"
+        }
+    },
+    "@right_aligned_label": {
+        "colours": {
+            "dark_bg": "#000000",
+            "normal_text": "#FFFFFF"
+        },
+        "font": {
+            "name": "JetBrainsMono-Regular",
+            "size": "12"
+        },
+        "misc": {
+            "text_horiz_alignment": "right",
+            "text_horiz_alignment_padding": "5"
+        }
+    }
+}

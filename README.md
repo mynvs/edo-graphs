@@ -1,4 +1,4 @@
-# chord space
+# EDO graphs
 
 ### installation
 
@@ -7,7 +7,7 @@
 	- check "Add Python 3.x to PATH" when you install python.
 
 2. clone github repository:
-   	- run \``git clone https://github.com/mynvs/chord-space`\`
+   	- run \``git clone https://github.com/mynvs/EDO-graphs`\`
    	- or download .zip file
 
 3. verify that python is working:

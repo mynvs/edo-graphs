@@ -14,7 +14,7 @@ from temp_settings import *
 
 FPS = 60
 
-WINDOW_SIZE = 800
+WINDOW_SIZE = 625
 MARGIN_SIZE = 15
 BUTTON_SIZE = 16
 

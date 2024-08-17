@@ -3,3 +3,5 @@ networkx
 scipy
 scikit-learn
 tqdm
+pygame
+pygame_gui

@@ -1,3 +1,5 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 import pygame_gui
 import subprocess
@@ -6,49 +8,37 @@ import threading
 import json
 import os
 
-# Initialize Pygame
 pygame.init()
-
-# Set up the window
 WINDOW_SIZE = (400, 250)
 screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption('settings')
-
-# Create a UI Manager
 manager = pygame_gui.UIManager(WINDOW_SIZE)
 
-# Default settings
 DEFAULT_SETTINGS = {
     'EDO': 12,
-    'CHORD_SIZE': 3,
-    'INTERVALS': [7],
-    'DIMENSIONS': 3,
+    'CHORD_SIZE': 4,
+    'INTERVALS': [1],
+    'DIMENSIONS': 4,
     'ITERATIONS': 500,
-    'DO_ALL_KEYS': False,
+    'DO_ALL_KEYS': True,
     'TRUNCATE_SYMBOLS': True,
     'SIMPLIFY_SYMBOLS': True,
-    'INCLUSIONS': '',
-    'EXCLUSIONS': '',
-    'INCLUDE_AND': False,
+    'INCLUSIONS': "'32', '23'",
+    'EXCLUSIONS': 'False',
+    'INCLUDE_AND': True,
     'EXCLUDE_AND': False
 }
 
-# Function to load settings
 def load_settings():
     if os.path.exists('src/settings.json'):
         with open('src/settings.json', 'r') as f:
             return json.load(f)
     return DEFAULT_SETTINGS.copy()
-
-# Function to save settings
 def save_settings(settings):
     with open('src/settings.json', 'w') as f:
         json.dump(settings, f)
-
-# Load settings
 current_settings = load_settings()
 
-# Function to create a label and entry pair
 def create_label_entry(x, y, label_width, entry_width, label_text, key):
     label = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((x, y), (label_width, 25)),
                                         text=label_text,
@@ -69,7 +59,6 @@ intervals_entry = create_label_entry(20, 80, 85, 270, 'intervals:', 'INTERVALS')
 inclusions_entry = create_label_entry(20, 110, 85, 195, 'include:', 'INCLUSIONS')
 exclusions_entry = create_label_entry(20, 140, 85, 195, 'exclude:', 'EXCLUSIONS')
 
-# Create toggle buttons
 def create_toggle_button(x, y, width, text, key):
     button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((x, y), (width, 25)),
                                           text=text,
@@ -84,16 +73,13 @@ simplify_symbols = create_toggle_button(270, 180, 110, 'omit ".0"', 'SIMPLIFY_SY
 include_and = create_toggle_button(310, 110, 70, 'AND', 'INCLUDE_AND')
 exclude_and = create_toggle_button(310, 140, 70, 'AND', 'EXCLUDE_AND')
 
-# Adjusted run and reset buttons
 run_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((20, 210), (80, 30)),
                                           text='run',
                                           manager=manager)
-
 reset_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 210), (80, 30)),
                                             text='reset',
                                             manager=manager)
 
-# Function to update UI with current settings
 def update_ui_with_settings():
     edo_entry.set_text(str(current_settings['EDO']))
     chord_size_entry.set_text(str(current_settings['CHORD_SIZE']))
@@ -113,7 +99,6 @@ def update_ui_with_settings():
         else:
             button.unselect()
 
-# Function to run the main program in a separate thread
 def run_program():
     try:
         current_settings['EDO'] = int(edo_entry.get_text())
@@ -141,12 +126,11 @@ def run_program():
     except Exception as e:
         print(f"an error occurred: {e}")
 
-# Main loop
 clock = pygame.time.Clock()
 is_running = True
 
 while is_running:
-    time_delta = clock.tick(60)/1000.0
+    time_delta = clock.tick(30)/1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False

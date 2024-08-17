@@ -109,8 +109,10 @@ def run_program():
         current_settings['DO_ALL_KEYS'] = do_all_keys.is_selected
         current_settings['TRUNCATE_SYMBOLS'] = truncate_symbols.is_selected
         current_settings['SIMPLIFY_SYMBOLS'] = simplify_symbols.is_selected
-        current_settings['INCLUSIONS'] = inclusions_entry.get_text() if inclusions_entry.get_text() else False
-        current_settings['EXCLUSIONS'] = exclusions_entry.get_text() if exclusions_entry.get_text() else False
+        inclusions = inclusions_entry.get_text()
+        exclusions = exclusions_entry.get_text()
+        current_settings['INCLUSIONS'] = inclusions+',' if inclusions and not (inclusions == 'False') else False
+        current_settings['EXCLUSIONS'] = exclusions+',' if exclusions and not (exclusions == 'False') else False
         current_settings['INCLUDE_AND'] = include_and.is_selected
         current_settings['EXCLUDE_AND'] = exclude_and.is_selected
         

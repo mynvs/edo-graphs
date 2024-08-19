@@ -274,7 +274,7 @@ def main():
  
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
-    pygame.display.set_caption('chord transformation viewer')
+    pygame.display.set_caption('graph viewer')
     pygame.display.set_icon(pygame.image.load('assets/icon.png'))
     font = pygame.font.Font('assets/JetBrainsMono-Regular.otf', 12)
     clock = pygame.time.Clock()

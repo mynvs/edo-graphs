@@ -10,7 +10,7 @@ import json
 pygame.init()
 WINDOW_SIZE = (400, 235)
 screen = pygame.display.set_mode(WINDOW_SIZE)
-pygame.display.set_caption('settings')
+pygame.display.set_caption('edo graphs v0.1')
 pygame.display.set_icon(pygame.image.load('src/assets/icon2.png'))
 manager = pygame_gui.UIManager(WINDOW_SIZE)
 

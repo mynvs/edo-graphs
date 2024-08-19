@@ -99,7 +99,7 @@ def render_button(surface, text, rect, selected, hovered):
 LABEL_X = 102  # Right-aligned position for labels
 ENTRY_X = 105  # Left position for entry fields
 
-edo_entry = create_label_entry(ENTRY_X, 5, 0, 72, 'EDO', 'EDO')
+edo_entry = create_label_entry(ENTRY_X, 5, 0, 72, 'edo', 'EDO')
 chord_size_entry = create_label_entry(ENTRY_X, 35, 0, 72, 'chord size', 'CHORD_SIZE')
 dimensions_entry = create_label_entry(ENTRY_X+200, 5, 0, 72, 'dimensions', 'DIMENSIONS')
 iterations_entry = create_label_entry(ENTRY_X+200, 35, 0, 72, 'iterations', 'ITERATIONS')
@@ -218,7 +218,7 @@ while is_running:
     manager.draw_ui(screen)
 
     # Render labels
-    render_label(screen, 'EDO', LABEL_X, 5)
+    render_label(screen, 'edo', LABEL_X, 5)
     render_label(screen, 'chord size', LABEL_X, 35)
     render_label(screen, 'dimensions', LABEL_X+200, 5)
     render_label(screen, 'iterations', LABEL_X+200, 35)

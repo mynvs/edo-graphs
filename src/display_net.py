@@ -88,8 +88,69 @@ def apply_spring_layout_nd(G, iterations=300, k=None):
 
     return np.array([pos[node] for node in G.nodes()])
 
+class SEB:
+    def __init__(self, points):
+        self.points = np.array(points)
+        self.center = None
+        self.radius = None
+        self.support_set = []
+        self.epsilon = 1e-10
+        self.max_iterations = 1000
+
+    def compute(self):
+        self.center = (np.min(self.points, axis=0) + np.max(self.points, axis=0)) / 2
+        self.radius = 0
+        self.support_set = []
+
+        for _ in range(self.max_iterations):
+            distances = np.linalg.norm(self.points - self.center, axis=1)
+            farthest_idx = np.argmax(distances)
+            farthest_distance = distances[farthest_idx]
+
+            if farthest_distance <= self.radius + self.epsilon:
+                break
+
+            self.update_ball(farthest_idx)
+
+        return self.center, self.radius
+
+    def update_ball(self, new_point_idx):
+        if new_point_idx not in self.support_set:
+            self.support_set.append(new_point_idx)
+        
+        while len(self.support_set) > 0:
+            support_points = self.points[self.support_set]
+            
+            if len(support_points) == 1:
+                self.center = support_points[0]
+                self.radius = 0
+            elif len(support_points) == 2:
+                self.center = np.mean(support_points, axis=0)
+                self.radius = np.linalg.norm(support_points[0] - self.center)
+            else:
+                A = support_points[1:] - support_points[0]
+                b = 0.5 * np.sum(A * A, axis=1)
+                try:
+                    x = np.linalg.lstsq(A, b, rcond=None)[0]
+                    self.center = x + support_points[0]
+                    self.radius = np.linalg.norm(support_points[0] - self.center)
+                except np.linalg.LinAlgError:
+                    self.center = np.mean(support_points, axis=0)
+                    self.radius = np.max(np.linalg.norm(support_points - self.center, axis=1))
+
+            distances = np.linalg.norm(support_points - self.center, axis=1)
+            interior_points = np.where(distances < self.radius - self.epsilon)[0]
+
+            if len(interior_points) == 0:
+                break
+
+            most_interior = interior_points[np.argmin(distances[interior_points])]
+            self.support_set.pop(most_interior)
+
 def normalize_positions(positions):
     if DIMENSIONS == 2:
+        pca = PCA(n_components=2)
+        positions = pca.fit_transform(positions)
         positions = np.hstack((positions, np.zeros((len(positions), 1))))
     elif DIMENSIONS == 3:
         pca = PCA(n_components=3)
@@ -99,26 +160,20 @@ def normalize_positions(positions):
         pca = PCA(n_components=3)
         positions = pca.fit_transform(positions)
     
-    distances = pdist(positions)
-    max_distance = np.max(distances)
-
-    indices = np.triu_indices(len(positions), k=1)
-    threshold = max_distance * 0.05
-    close_to_max = (distances >= max_distance-threshold) & (distances <= max_distance+threshold)
-    i_indices, j_indices = indices[0][close_to_max], indices[1][close_to_max]
+    # Compute the smallest enclosing ball
+    seb = SEB(positions)
+    center, radius = seb.compute()
     
-    midpoints = [(positions[i] + positions[j])/2 for i, j in zip(i_indices, j_indices)]
-    if midpoints:
-        center = np.mean(midpoints, axis=0)
-    else:
-        center = np.mean(positions, axis=0)
-    
+    # Center the positions
     centered_positions = positions - center
     
-    max_distance_from_center = np.max(np.linalg.norm(centered_positions, axis=1))
-    scale_factor = (WINDOW_SIZE - 2*MARGIN_SIZE) / (2*max_distance_from_center)
+    # Scale the positions to fit within the margins
+    scale_factor = (WINDOW_SIZE - 2*MARGIN_SIZE) / (2 * radius)
     normalized = centered_positions * scale_factor
+    
+    # Shift the positions to the center of the window
     normalized += WINDOW_SIZE/2
+    
     return normalized
 
 def prepare_graph(file_path):
@@ -209,7 +264,14 @@ def main():
     except ValueError as e:
         print(f'error: {e}')
         sys.exit(1)
-    
+    current_component = 0
+    try:
+        G, positions = positioned_subgraphs[current_component]
+        colors = generate_label_colors(G, label_colors)
+    except IndexError as e:
+        print(f'error: {e}')
+        sys.exit(1)
+ 
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
     pygame.display.set_caption('chord transformation viewer')
@@ -220,11 +282,7 @@ def main():
     rotation_quat = Rotation.from_quat([0, 0, 0, 1])
     angular_velocity = np.zeros(3)
     last_pos = None
-    current_component = 0
     running = True
-
-    G, positions = positioned_subgraphs[current_component]
-    colors = generate_label_colors(G, label_colors)
 
     SCREEN_CENTER = np.array([WINDOW_SIZE/2, WINDOW_SIZE/2, 0])
     ROTATION_SCALE = SENSITIVITY*85 / WINDOW_SIZE

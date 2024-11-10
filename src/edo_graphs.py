@@ -231,7 +231,7 @@ labels, arcs = generate_transformations(EDO, CHORD_SIZE, INTERVALS, DO_ALL_KEYS,
 
 
 
-# # chord A  ->  chord B
+# chord A  ->  chord B
 # TRANSFORMATIONS =(\
 #     ('32', '34'), # Relative
 #     ('24', '23'), # Leading tone
@@ -262,7 +262,8 @@ system('cd src && display_net.py')
 '''
 TODO:
 
-- different interval steps per note
+0. different interval steps per note
+    - this is actually more natural in a system where all binaries are treated as unique shapes
 
 1. ability to have edges across different chord sizes, such as when an interval neighbor
    overlaps with an existing note and the chord size gets reduced by 1.
@@ -273,6 +274,16 @@ TODO:
 7. allow inverting 1's and 0's as a transformation
 8. allow adding and removing notes as a transformation
 
+9. ability to treat all binaries as unique shapes, without regard for the minimum rotation
+
+10. ability to highlight specific chord shapes
+    - list of chord shapes in the graph along with their other notation forms, ie. indexed and binary
+
+10. ability to highlight chords that contain specific notes
+
+11. ability to "invert" a graph you're looking at.
+    - this would be like doing the operation (entire set) NOT (graph in question)
+        - boolean logic on graphs
 
 - ability to remove reflections of chords
 

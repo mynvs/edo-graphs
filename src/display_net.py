@@ -250,7 +250,7 @@ def draw_selection_panel(screen, font, current_index, total_components):
 
 def main():
     pygame.init()
-    font = pygame.font.Font('assets/JetBrainsMono-Regular.otf', 12)
+    font = pygame.font.Font('assets/JetBrainsMono-Light.otf', 12)
 
     try:
         print()
